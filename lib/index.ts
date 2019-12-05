@@ -1,1 +1,2 @@
-export const version = '0.0.1'
+export * from './event_emitter'
+export * from './event_emitter_mixin'
