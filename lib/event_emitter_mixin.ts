@@ -6,7 +6,7 @@ import {
   IEventsBase
 } from './event_emitter'
 
-export type EventEmitterConstructor<T = object> = new (...args: any[]) => T
+export type EventEmitterConstructor<T> = new (...args: any[]) => T
 
 type EventListeners = Map<Function, number>
 
@@ -19,11 +19,15 @@ const getEventListeners = (emitter: IEventEmitter, key: EventKeyType) => {
   return cm ? cm.get(key) : null
 }
 
+export class BaseEventEmitter {}
+
 export function EventEmitterMixin<
   Events extends IEventsBase,
-  TBase extends EventEmitterConstructor
+  TBase extends EventEmitterConstructor<
+    BaseEventEmitter
+  > = typeof BaseEventEmitter
 > (Base: TBase) {
-  return class EventEmitter extends Base implements IEventEmitter<Events> {
+  return class extends Base implements IEventEmitter<Events> {
     static readonly activeEventEmitters = new Set<object>()
 
     addListener<E extends keyof Events> (

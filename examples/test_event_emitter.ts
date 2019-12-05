@@ -1,4 +1,4 @@
-import { EventEmitterConstructor, EventEmitterMixin, IEventsBase } from '../lib'
+import { EventEmitterMixin, IEventsBase } from '../lib'
 
 interface IMessageEvents extends IEventsBase {
   error: (error: Error) => void
@@ -6,15 +6,12 @@ interface IMessageEvents extends IEventsBase {
 }
 
 class BaseEmitter {
-  constructor() {
+  constructor () {
     console.log('Base constructor')
   }
 }
 
-class MessageEmitter extends EventEmitterMixin<
-  IMessageEvents,
-  EventEmitterConstructor<{}>
->(BaseEmitter) {}
+class MessageEmitter extends EventEmitterMixin<IMessageEvents>(BaseEmitter) {}
 
 const m = new MessageEmitter()
 
