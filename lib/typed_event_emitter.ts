@@ -11,7 +11,7 @@ export interface IBaseEvents {}
 
 export type EventKeyType = string | symbol
 
-export interface IEventEmitter<Events extends IBaseEvents = {}> {
+export interface ITypedEventEmitter<Events extends IBaseEvents = {}> {
   addListener<E extends keyof Events>(event: E, listener: Events[E]): this
   emit<E extends keyof Events>(
     event: E,

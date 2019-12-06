@@ -2,8 +2,8 @@ import {
   EventEmitArgs,
   EventKeyType,
   IBaseEvents,
-  IEventEmitter
-} from './event_emitter'
+  ITypedEventEmitter
+} from './typed_event_emitter'
 
 export type EventEmitterConstructor<T> = new (...args: any[]) => T
 
@@ -11,9 +11,9 @@ type EventListeners = Map<Function, number>
 
 type EmitterCallbackMap = Map<EventKeyType, EventListeners>
 
-const callbackMap = new Map<IEventEmitter, EmitterCallbackMap>()
+const callbackMap = new Map<ITypedEventEmitter, EmitterCallbackMap>()
 
-const getEventListeners = (emitter: IEventEmitter, key: EventKeyType) => {
+const getEventListeners = (emitter: ITypedEventEmitter, key: EventKeyType) => {
   const cm = callbackMap.get(emitter)
   return cm ? cm.get(key) : null
 }
@@ -26,7 +26,7 @@ export function EventEmitterMixin<
     BaseEventEmitter
   > = typeof BaseEventEmitter
 > (Base: TBase) {
-  return class extends Base implements IEventEmitter<Events> {
+  return class extends Base implements ITypedEventEmitter<Events> {
     static readonly activeEventEmitters = new Set<object>()
 
     addListener<E extends keyof Events> (
