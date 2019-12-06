@@ -3,19 +3,15 @@
  * Interface declaration borrowed from:
  * https://github.com/andywer/typed-emitter
  */
-export type EventEmitArgs<T> = [T] extends [(...args: infer U) => any]
-  ? U
-  : [T] extends [void]
-  ? []
-  : [T]
+export type EventEmitArgs<T> =
+  [T] extends [(...args: infer U) => any] ? U :
+  [T] extends [void] ? [] : [T]
 
-export type EventListener = (...args: any[]) => any
-
-export interface IEventsBase {}
+export interface IBaseEvents {}
 
 export type EventKeyType = string | symbol
 
-export interface IEventEmitter<Events extends IEventsBase = {}> {
+export interface IEventEmitter<Events extends IBaseEvents = {}> {
   addListener<E extends keyof Events>(event: E, listener: Events[E]): this
   emit<E extends keyof Events>(
     event: E,

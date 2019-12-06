@@ -1,6 +1,6 @@
-import { EventEmitterMixin, IEventsBase } from '../lib'
+import { EventEmitterMixin, IBaseEvents } from '../lib'
 
-interface IMessageEvents extends IEventsBase {
+interface IMessageEvents extends IBaseEvents {
   error: (error: Error) => void
   message: (body: string, from: string) => void
 }

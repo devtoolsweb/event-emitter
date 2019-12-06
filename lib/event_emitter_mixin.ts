@@ -1,9 +1,8 @@
 import {
   EventEmitArgs,
   EventKeyType,
-  EventListener,
-  IEventEmitter,
-  IEventsBase
+  IBaseEvents,
+  IEventEmitter
 } from './event_emitter'
 
 export type EventEmitterConstructor<T> = new (...args: any[]) => T
@@ -22,7 +21,7 @@ const getEventListeners = (emitter: IEventEmitter, key: EventKeyType) => {
 export class BaseEventEmitter {}
 
 export function EventEmitterMixin<
-  Events extends IEventsBase,
+  Events extends IBaseEvents,
   TBase extends EventEmitterConstructor<
     BaseEventEmitter
   > = typeof BaseEventEmitter
@@ -46,7 +45,7 @@ export function EventEmitterMixin<
       const eventKey = event as EventKeyType
       let xs = cm.get(eventKey)
       if (!xs) {
-        xs = new Map<EventListener, number>()
+        xs = new Map<Function, number>()
         cm.set(eventKey, xs)
       }
       xs.set(listener, counter)
