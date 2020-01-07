@@ -25,7 +25,7 @@ export function EventEmitterMixin<
   TBase extends EventEmitterConstructor<
     BaseEventEmitter
   > = typeof BaseEventEmitter
->(Base: TBase): EventEmitterConstructor<ITypedEventEmitter<Events> | TBase> {
+>(Base: TBase): TBase & EventEmitterConstructor<ITypedEventEmitter<Events>> {
   return class extends Base implements ITypedEventEmitter<Events> {
     static readonly activeEventEmitters = new Set<object>()
 
