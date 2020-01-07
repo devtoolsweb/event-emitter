@@ -25,11 +25,11 @@ export function EventEmitterMixin<
   TBase extends EventEmitterConstructor<
     BaseEventEmitter
   > = typeof BaseEventEmitter
-> (Base: TBase) {
+>(Base: TBase): TBase {
   return class extends Base implements ITypedEventEmitter<Events> {
     static readonly activeEventEmitters = new Set<object>()
 
-    addListener<E extends keyof Events> (
+    addListener<E extends keyof Events>(
       event: E,
       listener: Events[E],
       counter: number = Infinity
@@ -52,7 +52,7 @@ export function EventEmitterMixin<
       return this
     }
 
-    emit<E extends keyof Events> (event: E, ...args: EventEmitArgs<Events[E]>) {
+    emit<E extends keyof Events>(event: E, ...args: EventEmitArgs<Events[E]>) {
       const xs = getEventListeners(this, event as EventKeyType)
       if (xs) {
         for (const [fn, counter] of xs) {
@@ -68,39 +68,39 @@ export function EventEmitterMixin<
       return false
     }
 
-    eventNames () {
+    eventNames() {
       let cm = callbackMap.get(this)
       return cm ? Array.from(cm.keys()) : []
     }
 
-    listenerCount<E extends keyof Events> (event: E) {
+    listenerCount<E extends keyof Events>(event: E) {
       const xs = getEventListeners(this, event as EventKeyType)
       return xs ? xs.size : 0
     }
 
-    listeners<E extends keyof Events> (event: E) {
+    listeners<E extends keyof Events>(event: E) {
       const xs = getEventListeners(this, event as EventKeyType)
       return xs ? Array.from(xs.keys()) : []
     }
 
-    off<E extends keyof Events> (event: E, listener: Events[E]) {
+    off<E extends keyof Events>(event: E, listener: Events[E]) {
       return this.removeListener(event, listener)
     }
 
-    on<E extends keyof Events> (event: E, listener: Events[E]) {
+    on<E extends keyof Events>(event: E, listener: Events[E]) {
       return this.addListener(event, listener)
     }
 
-    once<E extends keyof Events> (event: E, listener: Events[E]) {
+    once<E extends keyof Events>(event: E, listener: Events[E]) {
       return this.addListener(event, listener, 1)
     }
 
-    removeAllListeners<E extends keyof Events> (event: E) {
+    removeAllListeners<E extends keyof Events>(event: E) {
       callbackMap.delete(this)
       return this
     }
 
-    removeListener<E extends keyof Events> (event: E, listener: Events[E]) {
+    removeListener<E extends keyof Events>(event: E, listener: Events[E]) {
       const xs = getEventListeners(this, event as EventKeyType)
       if (!xs || !xs.has(listener as any)) {
         throw new Error(`Listeners for event '${event}' not registered`)
