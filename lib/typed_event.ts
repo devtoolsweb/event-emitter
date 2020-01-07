@@ -14,7 +14,7 @@ export type TypedEventConfirmCallback<E extends IBaseEvents = {}> = (p: {
 
 export interface ITypedEventOpts<E extends IBaseEvents = {}> {
   confirmCallback?: TypedEventConfirmCallback<E>
-    origin?: object
+  origin?: object
   type: keyof E
 }
 
@@ -24,29 +24,28 @@ export interface ITypedEventConstructor<
   new (p: P): ITypedEvent
 }
 
-export class TypedEvent<E extends IBaseEvents = {}>
-  implements ITypedEvent<E> {
+export class TypedEvent<E extends IBaseEvents = {}> implements ITypedEvent<E> {
   readonly origin?: object
   readonly type: keyof E
 
   private confirmCallback?: TypedEventConfirmCallback<E>
   private isFinished: boolean = false
 
-  constructor (p: ITypedEventOpts<E>) {
-    this.confirmCallback = p.confirmCallback
+  constructor(p: ITypedEventOpts<E>) {
+    p.confirmCallback && (this.confirmCallback = p.confirmCallback)
     this.origin = p.origin
     this.type = p.type
   }
 
-  get key (): symbol {
+  get key(): symbol {
     return (this.constructor as any).key
   }
 
-  static get key (): symbol {
+  static get key(): symbol {
     return Symbol.for(this.name)
   }
 
-  confirm (result?: any): this {
+  confirm(result?: any): this {
     if (!this.isFinished) {
       if (this.confirmCallback) {
         this.confirmCallback({ event: this, result })
