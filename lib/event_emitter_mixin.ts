@@ -18,6 +18,8 @@ const getEventListeners = (emitter: ITypedEventEmitter, key: EventKeyType) => {
   return cm ? cm.get(key) : null
 }
 
+const eventSentinels = new Set<ITypedEventEmitter>()
+
 export class BaseEventEmitter {}
 
 export function EventEmitterMixin<
@@ -53,17 +55,23 @@ export function EventEmitterMixin<
     }
 
     emit<E extends keyof Events>(event: E, ...args: EventEmitArgs<Events[E]>) {
-      const xs = getEventListeners(this, event as EventKeyType)
-      if (xs) {
-        for (const [fn, counter] of xs) {
-          fn.apply(null, args)
-          const n = counter - 1
-          if (n) {
-            xs.set(fn, n)
-          } else {
-            this.removeListener(event, fn as any)
+      if (eventSentinels.has(this)) {
+        console.warn('The emitter is already processing the event:', this)
+      } else {
+        eventSentinels.add(this)
+        const xs = getEventListeners(this, event as EventKeyType)
+        if (xs) {
+          for (const [fn, counter] of xs) {
+            fn.apply(null, args)
+            const n = counter - 1
+            if (n) {
+              xs.set(fn, n)
+            } else {
+              this.removeListener(event, fn as any)
+            }
           }
         }
+        eventSentinels.delete(this)
       }
       return false
     }
