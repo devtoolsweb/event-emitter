@@ -31,7 +31,7 @@ export function EventEmitterMixin<
   Events extends IBaseEvents,
   TBase extends EventEmitterConstructor
 >(Base: TBase): TBase & EventEmitterConstructor<ITypedEventEmitter<Events>> {
-  return class extends Base implements ITypedEventEmitter<Events> {
+  return class MixedEventEmitter extends Base implements ITypedEventEmitter<Events> {
     static readonly activeEventEmitters = new Set<object>()
 
     addListener<E extends keyof Events>(event: E, listener: Events[E], counter: number = Infinity) {
