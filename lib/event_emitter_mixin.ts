@@ -1,11 +1,6 @@
-import {
-  EventEmitArgs,
-  EventKeyType,
-  IBaseEvents,
-  ITypedEventEmitter
-} from './typed_event_emitter'
+import { EventEmitArgs, EventKeyType, IBaseEvents, ITypedEventEmitter } from './typed_event_emitter'
 
-export type EventEmitterConstructor<T> = new (...args: any[]) => T
+export type EventEmitterConstructor<T = {}> = new (...args: any[]) => T
 
 type EventListeners = Map<Function, number>
 
@@ -19,8 +14,6 @@ const getEventListeners = (emitter: ITypedEventEmitter, key: EventKeyType) => {
 }
 
 const eventSentinels = new Set<ITypedEventEmitter>()
-
-export class BaseEventEmitter {}
 
 export interface IGlobalEventEmitterOpts {
   debug?: boolean
@@ -36,18 +29,12 @@ export const setGlobalEventEmitterOpts = (opts: IGlobalEventEmitterOpts) => {
 
 export function EventEmitterMixin<
   Events extends IBaseEvents,
-  TBase extends EventEmitterConstructor<
-    BaseEventEmitter
-  > = typeof BaseEventEmitter
+  TBase extends EventEmitterConstructor
 >(Base: TBase): TBase & EventEmitterConstructor<ITypedEventEmitter<Events>> {
   return class extends Base implements ITypedEventEmitter<Events> {
     static readonly activeEventEmitters = new Set<object>()
 
-    addListener<E extends keyof Events>(
-      event: E,
-      listener: Events[E],
-      counter: number = Infinity
-    ) {
+    addListener<E extends keyof Events>(event: E, listener: Events[E], counter: number = Infinity) {
       if (!(listener instanceof Function)) {
         throw new Error('Event listener must be a function')
       }
