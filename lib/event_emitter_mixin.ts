@@ -1,3 +1,7 @@
+/*
+ * WARNING: Do not use event sentinels. Instead, you need to think
+ * through the handling of each event correctly.
+ */
 import { EventEmitArgs, EventKeyType, IBaseEvents, ITypedEventEmitter } from './typed_event_emitter'
 
 export type EventEmitterConstructor<T = {}> = new (...args: any[]) => T
@@ -12,8 +16,6 @@ const getEventListeners = (emitter: ITypedEventEmitter, key: EventKeyType) => {
   const cm = callbackMap.get(emitter)
   return cm ? cm.get(key) : null
 }
-
-const eventSentinels = new Set<ITypedEventEmitter>()
 
 export interface IGlobalEventEmitterOpts {
   debug?: boolean
@@ -54,25 +56,17 @@ export function EventEmitterMixin<
     }
 
     emit<E extends keyof Events>(event: E, ...args: EventEmitArgs<Events[E]>) {
-      if (eventSentinels.has(this)) {
-        if (globalOpts.debug) {
-          console.warn('The emitter is already processing the event:', this)
-        }
-      } else {
-        eventSentinels.add(this)
-        const xs = getEventListeners(this, event as EventKeyType)
-        if (xs) {
-          for (const [fn, counter] of xs) {
-            fn.apply(null, args)
-            const n = counter - 1
-            if (n) {
-              xs.set(fn, n)
-            } else {
-              this.removeListener(event, fn as any)
-            }
+      const xs = getEventListeners(this, event as EventKeyType)
+      if (xs) {
+        for (const [fn, counter] of xs) {
+          fn.apply(null, args)
+          const n = counter - 1
+          if (n) {
+            xs.set(fn, n)
+          } else {
+            this.removeListener(event, fn as any)
           }
         }
-        eventSentinels.delete(this)
       }
       return false
     }
