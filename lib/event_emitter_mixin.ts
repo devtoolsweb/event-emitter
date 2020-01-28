@@ -104,8 +104,15 @@ export function EventEmitterMixin<
       return this.addListener(event, listener, 1)
     }
 
-    removeAllListeners<E extends keyof Events>(event: E) {
-      callbackMap.delete(this)
+    removeAllListeners<E extends keyof Events>(event?: E) {
+      if (event) {
+        const xs = callbackMap.get(this)
+        if (xs) {
+          xs.delete(event as EventKeyType)
+        }
+      } else {
+        callbackMap.delete(this)
+      }
       return this
     }
 
