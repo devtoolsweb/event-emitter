@@ -2,9 +2,8 @@
   "author": "<aperos.dev@gmail.com>",
   "description": "An implementation of the EventEmitter mixin for TypeScript, suitable for use both in the browser and in Node.js",
   "devDependencies": {
-    "dts-bundle": "latest",
-    "make-dts-bundle": "latest",
     "rollup": "latest",
+    "rollup-plugin-dts": "latest",
     "rollup-plugin-terser": "latest",
     "rollup-plugin-typescript2": "latest",
     "ts-node": "latest",
@@ -14,8 +13,7 @@
   "name": "@aperos/event-emitter",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rollup -c && npm run build-dts",
-    "build-dts": "make-dts-bundle -b build",
+    "build": "rollup -c",
     "build-production": "BUILD=production npm run build",
     "clean": "rm -rf build dist",
     "prepare": "npm run clean && npm run build-production"
