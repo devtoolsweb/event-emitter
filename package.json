@@ -1,8 +1,8 @@
 {
   "author": "<aperos.dev@gmail.com>",
-  "description": "An implementation of the EventEmitter mixin for TypeScript, suitable for use both in the browser and in Node.js",
+  "description": "An implementation of the EventEmitter mixin for use both in the browser and in Node.js",
   "devDependencies": {
-    "rollup": "<=2.8.2",
+    "rollup": "latest",
     "rollup-plugin-dts": "latest",
     "rollup-plugin-terser": "latest",
     "rollup-plugin-typescript2": "latest",
