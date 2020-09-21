@@ -1,5 +1,8 @@
 {
   "author": "<aperos.dev@gmail.com>",
+  "dependencies": {
+    "@aperos/ts-goodies": "*"
+  },
   "description": "An implementation of the EventEmitter mixin for use both in the browser and in Node.js",
   "devDependencies": {
     "rollup": "latest",

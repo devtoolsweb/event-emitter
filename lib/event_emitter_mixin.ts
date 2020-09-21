@@ -2,9 +2,13 @@
  * WARNING: Do not use event sentinels. Instead, you need to think
  * through the handling of each event correctly.
  */
-import { EventEmitArgs, EventKeyType, IBaseEvents, ITypedEventEmitter } from './typed_event_emitter'
-
-export type EventEmitterConstructor<T = {}> = new (...args: any[]) => T
+import { Constructor } from '../../ts-goodies/dist'
+import {
+  EventEmitArgs,
+  EventKeyType,
+  IBaseEvents,
+  ITypedEventEmitter
+} from './typed_event_emitter'
 
 type EventListeners = Map<Function, number>
 
@@ -31,12 +35,17 @@ export const setGlobalEventEmitterOpts = (opts: IGlobalEventEmitterOpts) => {
 
 export function EventEmitterMixin<
   Events extends IBaseEvents,
-  TBase extends EventEmitterConstructor
->(Base: TBase): TBase & EventEmitterConstructor<ITypedEventEmitter<Events>> {
-  return class MixedEventEmitter extends Base implements ITypedEventEmitter<Events> {
+  TBase extends Constructor
+>(Base: TBase): TBase & Constructor<ITypedEventEmitter<Events>> {
+  return class MixedEventEmitter extends Base
+    implements ITypedEventEmitter<Events> {
     static readonly activeEventEmitters = new Set<object>()
 
-    addListener<E extends keyof Events>(event: E, listener: Events[E], counter: number = Infinity) {
+    addListener<E extends keyof Events>(
+      event: E,
+      listener: Events[E],
+      counter: number = Infinity
+    ) {
       if (!(listener instanceof Function)) {
         throw new Error('Event listener must be a function')
       }
