@@ -21,16 +21,16 @@ const getEventListeners = (emitter: ITypedEventEmitter, key: EventKeyType) => {
   return cm ? cm.get(key) : null
 }
 
-export interface IGlobalEventEmitterOpts {
+export interface IGlobalEventEmitterArgs {
   debug?: boolean
 }
 
-const globalOpts: IGlobalEventEmitterOpts = {
+const globalArgs: IGlobalEventEmitterArgs = {
   debug: false
 }
 
-export const setGlobalEventEmitterOpts = (opts: IGlobalEventEmitterOpts) => {
-  globalOpts.debug = !!opts.debug
+export const setGlobalEventEmitterArgs = (opts: IGlobalEventEmitterArgs) => {
+  globalArgs.debug = !!opts.debug
 }
 
 export function EventEmitterMixin<
