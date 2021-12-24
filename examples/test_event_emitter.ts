@@ -1,3 +1,4 @@
+import { Constructor } from '../../ts-goodies/dist'
 import { EventEmitterMixin, IBaseEvents } from '../lib'
 
 interface IMessageEvents extends IBaseEvents {
@@ -6,12 +7,14 @@ interface IMessageEvents extends IBaseEvents {
 }
 
 class BaseEmitter {
-  constructor () {
+  constructor() {
     console.log('Base constructor')
   }
 }
 
-class MessageEmitter extends EventEmitterMixin<IMessageEvents>(BaseEmitter) {}
+class MessageEmitter extends EventEmitterMixin<IMessageEvents, Constructor<BaseEmitter>>(
+  BaseEmitter
+) {}
 
 const m = new MessageEmitter()
 
