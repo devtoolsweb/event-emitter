@@ -1,7 +1,23 @@
 # @devtoolsweb/event-emitter
 
-An implementation of the EventEmitter mixin for use both
-in the browser and in Node.js.
+Implementation of a typed event emitter for use in both the browser and Node.js.
 
-The development branch can contain experimental code that is under
-active development and should not be used for production environments.
+Warning: This package may contain experimental code that is under development and should not be used in production environments.
+
+## Pre-requisites
+
+- Install the latest stable version of [Node.js](https://nodejs.org/en/)
+
+## Installation
+
+```
+yarn install @devtoolsweb/event-emitter
+```
+
+## Usage
+
+See own description for each class.
+
+## License
+
+[MIT](https://github.com/devtoolsweb/ts-goodies/blob/devtoolsweb/README.md)
