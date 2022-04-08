@@ -1,5 +1,5 @@
 {
-  "author": "<aperos.dev@gmail.com>",
+  "author": "elhombre <elhombre.dev@gmail.com>",
   "dependencies": {
     "@devtoolsweb/ts-goodies": "*",
     "type-fest": "latest"
