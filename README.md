@@ -1,4 +1,4 @@
-# @aperos/event-emitter
+# @devtoolsweb/event-emitter
 
 An implementation of the EventEmitter mixin for use both
 in the browser and in Node.js.
