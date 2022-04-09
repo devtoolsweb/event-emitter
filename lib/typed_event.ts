@@ -1,57 +1,58 @@
 import { IBaseEvents } from './typed_event_emitter'
 
-export interface ITypedEvent<E extends IBaseEvents = {}> {
-  readonly key: symbol
-  readonly origin?: object
-  readonly type: keyof E
-  confirm(result?: any): this
+export interface ITypedEvent<E extends IBaseEvents = IBaseEvents> {
+    confirm(result?: unknown): this
+    readonly key: symbol
+    readonly origin?: object
+    readonly type: keyof E
 }
 
-export type TypedEventConfirmCallback<E extends IBaseEvents = {}> = (p: {
-  event: ITypedEvent<E>
-  result?: any
+export type TypedEventConfirmCallback<E extends IBaseEvents> = (p: {
+    event: ITypedEvent<E>
+    result?: unknown
 }) => void
 
-export interface ITypedEventOpts<E extends IBaseEvents = {}> {
-  confirmCallback?: TypedEventConfirmCallback<E>
-  origin?: object
-  type: keyof E
+export interface ITypedEventOpts<E extends IBaseEvents> {
+    confirmCallback?: TypedEventConfirmCallback<E>
+    origin?: object
+    type: keyof E
 }
 
-export interface ITypedEventConstructor<
-  P extends ITypedEventOpts = ITypedEventOpts
-> {
-  new (p: P): ITypedEvent
-}
+export class TypedEvent<E extends IBaseEvents> implements ITypedEvent<E> {
 
-export class TypedEvent<E extends IBaseEvents = {}> implements ITypedEvent<E> {
-  readonly origin?: object
-  readonly type: keyof E
+    readonly origin?: object
 
-  private confirmCallback?: TypedEventConfirmCallback<E>
-  private isFinished: boolean = false
+    readonly type: keyof E
 
-  constructor(p: ITypedEventOpts<E>) {
-    p.confirmCallback && (this.confirmCallback = p.confirmCallback)
-    this.origin = p.origin
-    this.type = p.type
-  }
+    private confirmCallback?: TypedEventConfirmCallback<E>
 
-  get key(): symbol {
-    return (this.constructor as any).key
-  }
+    private isFinished = false
 
-  static get key(): symbol {
-    return Symbol.for(this.name)
-  }
-
-  confirm(result?: any): this {
-    if (!this.isFinished) {
-      if (this.confirmCallback) {
-        this.confirmCallback({ event: this, result })
-      }
-      this.isFinished = true
+    constructor (p: ITypedEventOpts<E>) {
+        p.confirmCallback && (this.confirmCallback = p.confirmCallback)
+        this.origin = p.origin
+        this.type = p.type
     }
-    return this
-  }
+
+    get key (): symbol {
+        return ((this.constructor as unknown) as { key: symbol }).key
+    }
+
+    confirm (result?: unknown): this {
+        if (!this.isFinished) {
+            if (this.confirmCallback) {
+                this.confirmCallback({
+                    event: this,
+                    result
+                })
+            }
+            this.isFinished = true
+        }
+        return this
+    }
+
+    static get key (): symbol {
+        return Symbol.for(this.name)
+    }
+
 }
