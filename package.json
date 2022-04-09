@@ -1,0 +1,28 @@
+{
+  "author": "elhombre <elhombre.dev@gmail.com>",
+  "dependencies": {
+    "@devtoolsweb/ts-goodies": "*",
+    "type-fest": "latest"
+  },
+  "description": "An implementation of the EventEmitter mixin for use both in the browser and in Node.js",
+  "devDependencies": {
+    "rollup": "latest",
+    "rollup-plugin-dts": "latest",
+    "rollup-plugin-terser": "latest",
+    "rollup-plugin-typescript2": "latest",
+    "ts-node": "latest",
+    "typescript": "latest"
+  },
+  "license": "MIT",
+  "name": "@devtoolsweb/event-emitter",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "scripts": {
+    "build": "rollup -c",
+    "build-production": "BUILD=production npm run build",
+    "clean": "rm -rf build dist",
+    "prepare": "npm run clean && npm run build-production"
+  },
+  "types": "dist/index.d.ts",
+  "version": "0.1.1"
+}
