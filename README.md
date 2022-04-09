@@ -20,4 +20,4 @@ See own description for each class.
 
 ## License
 
-[MIT](https://github.com/devtoolsweb/ts-goodies/blob/devtoolsweb/README.md)
+[MIT](https://github.com/devtoolsweb/ts-goodies/blob/devtoolsweb/LICENSE)
