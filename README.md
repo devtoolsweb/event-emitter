@@ -20,4 +20,4 @@ See own description for each class.
 
 ## License
 
-[MIT](https://github.com/devtoolsweb/ts-goodies/blob/devtoolsweb/LICENSE)
+[MIT](https://github.com/devtoolsweb/event-emitter/blob/master/LICENSE)
