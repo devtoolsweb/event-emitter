@@ -4,12 +4,14 @@
     "declaration": true,
     "declarationDir": "build",
     "downlevelIteration": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSources": true,
-    "lib": ["es2019", "es2019.object"],
-    "moduleResolution": "node",
+    "lib": ["ES2022", "ES2022.Object"],
+    "moduleResolution": "NodeNext",
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "build",
@@ -18,7 +20,7 @@
     "sourceRoot": "./",
     "strict": true,
     "stripInternal": true,
-    "target": "es6"
+    "target": "ES2022"
   },
   "include": ["lib"]
 }
